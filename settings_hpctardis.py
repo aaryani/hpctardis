@@ -3,6 +3,9 @@
 from os import path
 from tardis.settings_changeme import *
 
+# Debug mode
+DEBUG = False
+
 # Database settings
 DATABASES = {
     'default': {
@@ -47,7 +50,9 @@ STAGING_PROTOCOL = 'localdb'
 THUMBNAILS_PATH = path.abspath(path.join(path.dirname(__file__),
     '../var/thumbnails/')).replace('\\', '/')
 
-INSTALLED_APPS = (TARDIS_APP_ROOT+".hpctardis",) + INSTALLED_APPS
+INSTALLED_APPS = (TARDIS_APP_ROOT+".hpctardis",
+                  'django.contrib.markup',
+                  'django_nose',) + INSTALLED_APPS
 
 # Template loaders
 TEMPLATE_LOADERS = (
@@ -84,5 +89,42 @@ GROUP_ADDRESS = "Applied Science, RMIT University, Melbourne VIC 3000, Australia
 ACCESS_RIGHTS= "Contact the researchers/parties associated with this dataset"
 RIGHTS= "Terms and conditions applies as specified by the researchers"
 
-
+# Priviate datafiles
 PRIVATE_DATAFILES = True
+
+# LDAP configuration
+LDAP_USE_TLS = False
+LDAP_URL = "ldap://localhost:38911/"
+LDAP_USER_LOGIN_ATTR = "uid"
+LDAP_USER_ATTR_MAP = {"givenName": "display", "mail": "email"}
+LDAP_GROUP_ID_ATTR = "cn"
+LDAP_GROUP_ATTR_MAP = {"description": "display"}
+#LDAP_ADMIN_USER = ''
+#LDAP_ADMIN_PASSWORD = ''
+LDAP_BASE = 'dc=example, dc=com'
+LDAP_USER_BASE = 'ou=People, ' + LDAP_BASE
+LDAP_GROUP_BASE = 'ou=Group, ' + LDAP_BASE
+
+# Publish Providers Configuration
+PUBLISH_PROVIDERS = (
+                    'tardis.apps.hpctardis.publish.rif_cs_profile.'
+                    + 'rif_cs_PublishProvider.rif_cs_PublishProvider',
+                    )
+# Test Runner Configuration
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Staging Protocol
+STAGING_PROTOCOL = 'localdb'
+GET_FULL_STAGING_PATH_TEST = path.join(STAGING_PATH, "test_user")
+
+# AUTH_PROVIDERS 
+AUTH_PROVIDERS = (
+    ('localdb', 'Local DB', 'tardis.tardis_portal.auth.localdb_auth.DjangoAuthBackend'),
+    ('ldap', 'LDAP', 'tardis.tardis_portal.auth.ldap_auth.ldap_auth'),
+)
+
+# Email
+EMAIL_LINK_HOST = "http://127.0.0.1:8080"
+
+# Default institution
+DEFAULT_INSTITUTION = "RMIT University"
