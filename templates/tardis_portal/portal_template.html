@@ -5,13 +5,13 @@
     <meta name="description" content="">
     
     <!-- icon -->
-    <link rel="shortcut icon" href="/site_media/hpctardis/img/rmit_symbol_transparent.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}/images/rmit_symbol_transparent.png" type="image/x-icon">
     
     <!-- title -->
     <title>HPCTARDIS {% if subtitle %}- {{ subtitle }} {% endif %}</title>
     
     <!-- CSS Styles -->
-    <link href="/site_media/css/default.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ STATIC_URL }}/css/default.css" rel="stylesheet" type="text/css" media="screen">
     <link href="/static/css/hpctardis.css" rel="stylesheet" type="text/css" media="screen">
 
     <!-- Javascript -->
@@ -99,7 +99,6 @@
                 <li><a href="{% url tardis.tardis_portal.views.index %}">Home</a></li>
                 <li><a href="{% url tardis.tardis_portal.views.about %}">About</a></li>
                 <li><a href="{% url tardis.tardis_portal.views.experiment_index %}">Data</a></li>
-                <li><a href="{% url tardis.tardis_portal.views.partners %}">Partners</a></li>
                 <li><a href="{% url tardis.tardis_portal.views.stats %}">Stats</a></li>
             </ul>
         </div>

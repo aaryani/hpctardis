@@ -22,7 +22,7 @@ $(document).ready(function() {
 <script type="text/javascript" charset="utf-8">
     $(".experiment_metadata_toggle").text("[Show]");
     $(".experiment_metadata_toggle").next().hide();
-    var loadingHTML = "<img src='/site_media/images/ajax-loader.gif'/>";
+    var loadingHTML = "<img src='{{ STATIC_URL }}/images/ajax-loader.gif'/>";
 
     // metadata text / ajax toggle
 
@@ -114,7 +114,7 @@ $(document).ready(function() {
           </div>
 
           <div class="jqmAlertContent" id="jqmAlertContentexperimentA{{experiment.id}}">
-          <p>Please wait... <img src="/site_media/images/busy.gif" alt="loading" /></p>
+          <p>Please wait... <img src="{{ STATIC_URL }}/images/busy.gif" alt="loading" /></p>
           </div>
         </div>
     </div>
