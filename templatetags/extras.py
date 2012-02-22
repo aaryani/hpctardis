@@ -174,6 +174,33 @@ def breakup_desc(exp):
     return res
     
    
+   
+   
+def profile(exp):
+        """Return the rif-cs profile template location
+            as determined by the profile ExperimentParameter
+
+        """
+
+        profile_template_location = "rif_cs_profile/profiles/"
+
+        try:
+            from tardis.apps.hpcatardis.publish.rif_cs_profile.\
+            rif_cs_PublishProvider\
+            import rif_cs_PublishProvider
+
+            rif_cs_pp = rif_cs_PublishProvider(self.id)
+
+            profile = rif_cs_pp.get_profile()
+            if not profile:
+                return profile_template_location + "default.xml"
+
+            return profile_template_location + profile
+
+        except:
+            return profile_template_location + "default.xml"
+        
+        
     
 register = template.Library()
 register.filter('partyinfo',party_info)
@@ -186,3 +213,4 @@ register.filter('descsforactivity',descs_for_activity)
 register.filter('strip',strip)
 register.filter('makelist',make_list)
 register.filter('breakupdesc',breakup_desc)
+register.filter('profile',profile)

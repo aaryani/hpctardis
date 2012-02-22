@@ -39,7 +39,7 @@ RMITANDSService.py
 import os
 import random
 
-from tardis.tardis_portal.publish.publishservice import PublishService
+from tardis.apps.hpctardis.publish.publishservice import PublishService
 
 from django.conf import settings
 from django.utils.importlib import import_module
@@ -70,7 +70,7 @@ def _send_email(publish_auth,activation_key, exp, activity,auth_party,
     t = Template(email_contents)
     d = {"code": activation_key,
          "domain": settings.EMAIL_LINK_HOST,
-         "path":"publishauth",
+         "path":"apps/hpctardis/publishauth",
          "exp":exp.id,
          "expname":exp.title,
          "activity": activity,

@@ -45,7 +45,7 @@ import random
 
 from django.forms.formsets import formset_factory
 
-from tardis.tardis_portal.publish.interfaces import PublishProvider
+from tardis.apps.hpctardis.publish.interfaces import PublishProvider
 from tardis.tardis_portal.models import Experiment, ExperimentParameter, \
     ParameterName, Schema, ExperimentParameterSet
 

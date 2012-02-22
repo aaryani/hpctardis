@@ -10,7 +10,7 @@
     <!--              -->
     
 	{% for experiment in experiments %}
-	{% include experiment.profile %}
+	{% include experiment|profile %}
 	{% endfor %}	
 	
 	<!--          -->

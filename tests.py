@@ -245,11 +245,11 @@ class SimplePublishTest(TestCase):
         # publish
         data = {'legal':'on',
                 'profile':'default.xml'}
-        response = self.client.post("/experiment/view/publish/1/", data)
+        response = self.client.post("/apps/hcptardis/publish/1/", data)
         
         logger.debug("response=%s" % response)
         # check resulting rif-cs
-        response = self.client.post("/rif_cs/")
+        response = self.client.post("/apps/hpctardis/rif_cs/")
         self.assertTrue(_grep("test exp1",str(response)))
         self.assertTrue(_grep("<key>http://www.rmit.edu.au/HPC/2/1</key>",str(response)))
         self.assertTrue(_grep("""<addressPart type="text">%s</addressPart>""" %
@@ -370,8 +370,8 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset1/POSCAR' ],
                                ns="http://tardis.edu.au/schemas/vasp/1",
                                schname="vasp 1.0",
-                               results= [("kpoint_grid",ParameterName.STRING," 8  8  8   \n"),
-                                        ("kpoint_grid_offset",ParameterName.STRING," 0  0  0\n"),
+                               results= [("kpoint_grid",ParameterName.LONGSTRING," 8  8  8   \n"),
+                                        ("kpoint_grid_offset",ParameterName.LONGSTRING," 0  0  0\n"),
                                           ("ENCUT",ParameterName.NUMERIC,"400.0"),
                                           ("NIONS",ParameterName.NUMERIC,"216.0"),
                                           ("NELECT",ParameterName.NUMERIC,"864.0"),
@@ -384,24 +384,24 @@ class VASPMetadataTest(TestCase):
                                           ("POTIM",ParameterName.NUMERIC,"0.5"),
                                            ("EDIFF",ParameterName.NUMERIC,"0.0001"),
                                           ("EDIFFG",ParameterName.NUMERIC,"0.001"),
-                                          ("Descriptor Line",ParameterName.STRING,"Bulk Diamond"),
+                                          ("Descriptor Line",ParameterName.LONGSTRING,"Bulk Diamond"),
                                           ("NELM",ParameterName.NUMERIC,"60.0"),
                                           ("TEEND",ParameterName.NUMERIC,"0.0"),
                                           ("SMASS",ParameterName.NUMERIC,"-3.0"),
-                                          ("TITEL",ParameterName.STRING,'PAW_PBE C 08Apr2002'),
+                                          ("TITEL",ParameterName.LONGSTRING,'PAW_PBE C 08Apr2002'),
                                       
                                       ("Cell Scaling",ParameterName.NUMERIC,"1.0"),
-                                           ("Cell Parameter1",ParameterName.STRING,'    10.6863390000000003    0.0000000000000000    0.0000000000000000\n'),
-                                           ("Cell Parameter2",ParameterName.STRING,'     0.0000000000000000   10.6863390000000003    0.0000000000000000\n'),
-                                           ("Cell Parameter3",ParameterName.STRING,'     0.0000000000000000    0.0000000000000000   10.6863390000000003\n'),
+                                           ("Cell Parameter1",ParameterName.LONGSTRING,'    10.6863390000000003    0.0000000000000000    0.0000000000000000\n'),
+                                           ("Cell Parameter2",ParameterName.LONGSTRING,'     0.0000000000000000   10.6863390000000003    0.0000000000000000\n'),
+                                           ("Cell Parameter3",ParameterName.LONGSTRING,'     0.0000000000000000    0.0000000000000000   10.6863390000000003\n'),
                                         
-                                        #  ("Cell Parameters",ParameterName.STRING,"   1.00000000000000     \n    10.6863390000000003    0.0000000000000000    0.0000000000000000\n     0.0000000000000000   10.6863390000000003    0.0000000000000000\n     0.0000000000000000    0.0000000000000000   10.6863390000000003\n")
+                                        #  ("Cell Parameters",ParameterName.LONGSTRING,"   1.00000000000000     \n    10.6863390000000003    0.0000000000000000    0.0000000000000000\n     0.0000000000000000   10.6863390000000003    0.0000000000000000\n     0.0000000000000000    0.0000000000000000   10.6863390000000003\n")
                                           ])
         self._test_metadata(schema="http://tardis.edu.au/schemas/general/1",
                                name="general 1.0",
                                dataset=dataset,
-                               fields= [ ("Project",ParameterName.STRING,"FOOBAR Project"),
-                                          ("Walltime",ParameterName.STRING,"01:59:17"),
+                               fields= [ ("Project",ParameterName.LONGSTRING,"FOOBAR Project"),
+                                          ("Walltime",ParameterName.LONGSTRING,"01:59:17"),
                                           ("Number Of CPUs",ParameterName.NUMERIC,"64.0"),
                                           ("Maximum virtual memory",ParameterName.NUMERIC,"27047.0"),
                                           ("Max jobfs disk use",ParameterName.NUMERIC,"0.1")])
@@ -421,8 +421,8 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset2/OSZICAR' ],
                                ns="http://tardis.edu.au/schemas/vasp/1",
                                schname="vasp 1.0",
-                               results= [("kpoint_grid",ParameterName.STRING," 8  8  8   \n"),
-                                        ("kpoint_grid_offset",ParameterName.STRING," 0  0  0\n"),
+                               results= [("kpoint_grid",ParameterName.LONGSTRING," 8  8  8   \n"),
+                                        ("kpoint_grid_offset",ParameterName.LONGSTRING," 0  0  0\n"),
                                           ("ENCUT",ParameterName.NUMERIC,"400.0"),
                                           ("NIONS",ParameterName.NUMERIC,"215.0"),
                                           ("NELECT",ParameterName.NUMERIC,"800.0"),
@@ -440,26 +440,26 @@ class VASPMetadataTest(TestCase):
                                           ("TEBEG",ParameterName.NUMERIC,"0.0"),
                                           ("TEEND",ParameterName.NUMERIC,"0.0"),
                                           ("SMASS",ParameterName.NUMERIC,"-3.0"),
-                                          ("LEXCH",ParameterName.STRING,"PE\n PE\n 8\n 8"),
+                                          ("LEXCH",ParameterName.LONGSTRING,"PE\n PE\n 8\n 8"),
                                           
                                            ("Cell Scaling",ParameterName.NUMERIC,"1.0"),
-                                           ("Cell Parameter1",ParameterName.STRING,'    10.6851970403940548    0.0000000000000000    0.0000000000000000\n'),
-                                           ("Cell Parameter2",ParameterName.STRING,'     0.0000000000000000   10.6851970403940548    0.0000000000000000\n'),
-                                           ("Cell Parameter3",ParameterName.STRING,'     0.0000000000000000    0.0000000000000000   10.6851970403940548\n'),
+                                           ("Cell Parameter1",ParameterName.LONGSTRING,'    10.6851970403940548    0.0000000000000000    0.0000000000000000\n'),
+                                           ("Cell Parameter2",ParameterName.LONGSTRING,'     0.0000000000000000   10.6851970403940548    0.0000000000000000\n'),
+                                           ("Cell Parameter3",ParameterName.LONGSTRING,'     0.0000000000000000    0.0000000000000000   10.6851970403940548\n'),
                                            
-                                            #("Cell Parameters",ParameterName.STRING,"   1.00000000000000     \n    10.6851970403940548    0.0000000000000000    0.0000000000000000\n     0.0000000000000000   10.6851970403940548    0.0000000000000000\n     0.0000000000000000    0.0000000000000000   10.6851970403940548\n"),
+                                            #("Cell Parameters",ParameterName.LONGSTRING,"   1.00000000000000     \n    10.6851970403940548    0.0000000000000000    0.0000000000000000\n     0.0000000000000000   10.6851970403940548    0.0000000000000000\n     0.0000000000000000    0.0000000000000000   10.6851970403940548\n"),
                                       
                             
-                                          ("TITEL",ParameterName.STRING,"PAW_PBE C 08Apr2002\n PAW_PBE N 08Apr2002"),
-                                           ("Descriptor Line",ParameterName.STRING,"NV-Diamond Static"),
+                                          ("TITEL",ParameterName.LONGSTRING,"PAW_PBE C 08Apr2002\n PAW_PBE N 08Apr2002"),
+                                           ("Descriptor Line",ParameterName.LONGSTRING,"NV-Diamond Static"),
                                           ("Final Iteration",ParameterName.NUMERIC,"17.0")
                                           ])
         
         self._test_metadata(schema="http://tardis.edu.au/schemas/general/1",
                                name="general 1.0",
                                dataset=dataset,
-                               fields= [   ("Project",ParameterName.STRING,"FOOBAR Project"),
-                                          ("Walltime",ParameterName.STRING,"04:27:18"),
+                               fields= [   ("Project",ParameterName.LONGSTRING,"FOOBAR Project"),
+                                          ("Walltime",ParameterName.LONGSTRING,"04:27:18"),
                                           ("Number Of CPUs",ParameterName.NUMERIC,"56.0"),
                                           ("Maximum virtual memory",ParameterName.NUMERIC,"57537.0"),
                                           ("Max jobfs disk use",ParameterName.NUMERIC,"0.1"),])
@@ -474,25 +474,25 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset3/siesta.sub.o923124'],
                                ns="http://tardis.edu.au/schemas/siesta/1",
                                schname="siesta 1.0",
-                               results= [("SystemName",ParameterName.STRING,"my System"),
+                               results= [("SystemName",ParameterName.LONGSTRING,"my System"),
                                         ("MeshCutoff",ParameterName.NUMERIC,"500.0"),
                                           ("ElectronicTemperature",ParameterName.NUMERIC,"100.0"),
-                                          ("k-grid",ParameterName.STRING,'9    0    0    0\n0    1    0    0\n0    0    1    0\n'),
+                                          ("k-grid",ParameterName.LONGSTRING,'9    0    0    0\n0    1    0    0\n0    0    1    0\n'),
                                      
-                                          ("PAO.Basis",ParameterName.STRING,'Si  3 0.2658542\n n=2  0  2  E  4.9054837  -0.5515252\n   5.6679504  1.8444465\n   1.000   1.000\n n=3  1  2  E  15.6700423  -0.8457466\n   6.6151626  3.9384685\n   1.000   1.000\n n=3  2  1  E  44.0436726  -0.4370817\n   4.5403665\n   1.000\nP  3 0.1963113\n n=3  0  2  E  40.2507184  -0.7320000\n   5.8661651  -0.6144891\n   1.000   1.000\n n=3  1  2  E  78.4504409  -0.8743580\n   6.8187128  -0.3120693\n   1.000   1.000\n n=3  2  1  E  32.5566663  -0.2998069\n   4.9053838\n   1.000\n'),
-                                          ("MD.TypeOfRun",ParameterName.STRING,"cg"),
+                                          ("PAO.Basis",ParameterName.LONGSTRING,'Si  3 0.2658542\n n=2  0  2  E  4.9054837  -0.5515252\n   5.6679504  1.8444465\n   1.000   1.000\n n=3  1  2  E  15.6700423  -0.8457466\n   6.6151626  3.9384685\n   1.000   1.000\n n=3  2  1  E  44.0436726  -0.4370817\n   4.5403665\n   1.000\nP  3 0.1963113\n n=3  0  2  E  40.2507184  -0.7320000\n   5.8661651  -0.6144891\n   1.000   1.000\n n=3  1  2  E  78.4504409  -0.8743580\n   6.8187128  -0.3120693\n   1.000   1.000\n n=3  2  1  E  32.5566663  -0.2998069\n   4.9053838\n   1.000\n'),
+                                          ("MD.TypeOfRun",ParameterName.LONGSTRING,"cg"),
                                           ("MD.NumCGsteps",ParameterName.NUMERIC,"100.0"),
                                           ("MD.MaxForceTol",ParameterName.NUMERIC,"0.001"),
-                                          ("iscf",ParameterName.STRING,'siesta:   19   -34376.1097   -34376.0348   -34376.0689  0.0026 -3.1498\n'),
+                                          ("iscf",ParameterName.LONGSTRING,'siesta:   19   -34376.1097   -34376.0348   -34376.0689  0.0026 -3.1498\n'),
                                           ("E_KS",ParameterName.NUMERIC,'-34376.0348'),
-                                          ("Occupation Function",ParameterName.STRING,'FD'),
+                                          ("Occupation Function",ParameterName.LONGSTRING,'FD'),
                                           ("OccupationMPOrder",ParameterName.NUMERIC,'1.0')
                                           ])
         self._test_metadata(schema="http://tardis.edu.au/schemas/general/1",
                                name="general 1.0",
                                dataset=dataset,
-                               fields= [  ("Project",ParameterName.STRING,"FOOBAR Project"), #Assume single work for project
-                                   ("Walltime",ParameterName.STRING,"04:27:18"), 
+                               fields= [  ("Project",ParameterName.LONGSTRING,"FOOBAR Project"), #Assume single work for project
+                                   ("Walltime",ParameterName.LONGSTRING,"04:27:18"), 
                                      ("Number Of CPUs",ParameterName.NUMERIC,"6.0"),
                                      ("Maximum virtual memory",ParameterName.NUMERIC,"7537.0"),
                                       ("Max jobfs disk use",ParameterName.NUMERIC,"2.1")
@@ -511,11 +511,11 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset4/mdexample.gout'],
                                ns="http://tardis.edu.au/schemas/gulp/1",
                                schname="gulp 1.0",
-                               results= [("Run Type",ParameterName.STRING,"opti"),
-                                        ("Run Keyword",ParameterName.STRING,"conp sm"),
-                                        ("Library",ParameterName.STRING,"foobar"),
-                                        ("CoordinateFile",ParameterName.STRING,"ss.xyz"),
-                                        ("Formula",ParameterName.STRING,"foobar"),
+                               results= [("Run Type",ParameterName.LONGSTRING,"opti"),
+                                        ("Run Keyword",ParameterName.LONGSTRING,"conp sm"),
+                                        ("Library",ParameterName.LONGSTRING,"foobar"),
+                                        ("CoordinateFile",ParameterName.LONGSTRING,"ss.xyz"),
+                                        ("Formula",ParameterName.LONGSTRING,"foobar"),
                                         ("Total number atoms/shell",ParameterName.NUMERIC,"120.0")
                                         
                                         ])
@@ -523,9 +523,9 @@ class VASPMetadataTest(TestCase):
         self._test_metadata(schema="http://tardis.edu.au/schemas/gulp/2",
                                name="gulp2 1.0",
                                dataset=dataset,
-                               fields= [("Run Type",ParameterName.STRING,"md"),
-                                        ("Run Keyword",ParameterName.STRING,"conv"),
-                                        ("Formula",ParameterName.STRING,"foobar")
+                               fields= [("Run Type",ParameterName.LONGSTRING,"md"),
+                                        ("Run Keyword",ParameterName.LONGSTRING,"conv"),
+                                        ("Formula",ParameterName.LONGSTRING,"foobar")
                                         ])
                 
     def test_metadata5(self):
@@ -537,19 +537,19 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset5/crystaljob.o599843'],
                                ns="http://tardis.edu.au/schemas/crystal/1",
                                schname="crystal 1.0",
-                               results= [("Experiment name",ParameterName.STRING,"FOOBAR\n"),
-                                        ("Calculation type",ParameterName.STRING,"CRYSTAL\n"),                                    
+                               results= [("Experiment name",ParameterName.LONGSTRING,"FOOBAR\n"),
+                                        ("Calculation type",ParameterName.LONGSTRING,"CRYSTAL\n"),                                    
                                         ("Space/layer/rod/point group",ParameterName.NUMERIC,"14.0"),                              
-                                        ("Lattice parameter",ParameterName.STRING,"1 2 3 4\n"),
-                                        ("SLABCUT",ParameterName.STRING,"no"),                                    
-                                        ("OPTGEOM",ParameterName.STRING,"no"),                                                                        
-                                        ("TESTGEOM",ParameterName.STRING,"no"),                                                                        
-                                        ("UHF",ParameterName.STRING,"yes"),                                                                        
-                                        ("DFT",ParameterName.STRING,"yes"),                                                                                                                
+                                        ("Lattice parameter",ParameterName.LONGSTRING,"1 2 3 4\n"),
+                                        ("SLABCUT",ParameterName.LONGSTRING,"no"),                                    
+                                        ("OPTGEOM",ParameterName.LONGSTRING,"no"),                                                                        
+                                        ("TESTGEOM",ParameterName.LONGSTRING,"no"),                                                                        
+                                        ("UHF",ParameterName.LONGSTRING,"yes"),                                                                        
+                                        ("DFT",ParameterName.LONGSTRING,"yes"),                                                                                                                
                                         ("MAXCYCLE",ParameterName.NUMERIC,"325.0"),                                                                                                                
-                                        ("SHRINK",ParameterName.STRING,"2 13"),
+                                        ("SHRINK",ParameterName.LONGSTRING,"2 13"),
                                         ("FMIXING",ParameterName.NUMERIC,"87.0"),                                                                                                                                                                                            
-                                        ("BROYDEN",ParameterName.STRING,"0.0032 10 20")                                                                                                                                                                                            
+                                        ("BROYDEN",ParameterName.LONGSTRING,"0.0032 10 20")                                                                                                                                                                                            
                                         ])
 
         dataset2 = self._metadata_extract(expname="testexp2",
@@ -557,12 +557,12 @@ class VASPMetadataTest(TestCase):
                                ns="http://tardis.edu.au/schemas/crystal/1",
                                schname="crystal 1.0",
                                results= [("Space/layer/rod/point group",ParameterName.NUMERIC,"42.0"),
-                                     ("Lattice parameter",ParameterName.STRING,"foobar2\n"),                                    
-                                        ("SLABCUT",ParameterName.STRING,"yes"),                                                                        
-                                        ("OPTGEOM",ParameterName.STRING,"yes"),                                                                        
-                                        ("TESTGEOM",ParameterName.STRING,"yes"),                                                                        
-                                        ("UHF",ParameterName.STRING,"no"),                                                                        
-                                        ("DFT",ParameterName.STRING,"no")                                                                        
+                                     ("Lattice parameter",ParameterName.LONGSTRING,"foobar2\n"),                                    
+                                        ("SLABCUT",ParameterName.LONGSTRING,"yes"),                                                                        
+                                        ("OPTGEOM",ParameterName.LONGSTRING,"yes"),                                                                        
+                                        ("TESTGEOM",ParameterName.LONGSTRING,"yes"),                                                                        
+                                        ("UHF",ParameterName.LONGSTRING,"no"),                                                                        
+                                        ("DFT",ParameterName.LONGSTRING,"no")                                                                        
                                         ])
 
         
@@ -578,18 +578,18 @@ class VASPMetadataTest(TestCase):
                                           'testing/dataset3/siesta.sub.o923124'],
                                ns="http://tardis.edu.au/schemas/siesta/1",
                                schname="siesta 1.0",
-                               results= [("SystemName",ParameterName.STRING,"my System"),
+                               results= [("SystemName",ParameterName.LONGSTRING,"my System"),
                                         ("MeshCutoff",ParameterName.NUMERIC,"500.0"),
                                           ("ElectronicTemperature",ParameterName.NUMERIC,"100.0"),
-                                          ("k-grid",ParameterName.STRING,'9    0    0    0\n0    1    0    0\n0    0    1    0\n'),
+                                          ("k-grid",ParameterName.LONGSTRING,'9    0    0    0\n0    1    0    0\n0    0    1    0\n'),
                                      
-                                          ("PAO.Basis",ParameterName.STRING,'Si  3 0.2658542\n n=2  0  2  E  4.9054837  -0.5515252\n   5.6679504  1.8444465\n   1.000   1.000\n n=3  1  2  E  15.6700423  -0.8457466\n   6.6151626  3.9384685\n   1.000   1.000\n n=3  2  1  E  44.0436726  -0.4370817\n   4.5403665\n   1.000\nP  3 0.1963113\n n=3  0  2  E  40.2507184  -0.7320000\n   5.8661651  -0.6144891\n   1.000   1.000\n n=3  1  2  E  78.4504409  -0.8743580\n   6.8187128  -0.3120693\n   1.000   1.000\n n=3  2  1  E  32.5566663  -0.2998069\n   4.9053838\n   1.000\n'),
-                                          ("MD.TypeOfRun",ParameterName.STRING,"cg"),
+                                          ("PAO.Basis",ParameterName.LONGSTRING,'Si  3 0.2658542\n n=2  0  2  E  4.9054837  -0.5515252\n   5.6679504  1.8444465\n   1.000   1.000\n n=3  1  2  E  15.6700423  -0.8457466\n   6.6151626  3.9384685\n   1.000   1.000\n n=3  2  1  E  44.0436726  -0.4370817\n   4.5403665\n   1.000\nP  3 0.1963113\n n=3  0  2  E  40.2507184  -0.7320000\n   5.8661651  -0.6144891\n   1.000   1.000\n n=3  1  2  E  78.4504409  -0.8743580\n   6.8187128  -0.3120693\n   1.000   1.000\n n=3  2  1  E  32.5566663  -0.2998069\n   4.9053838\n   1.000\n'),
+                                          ("MD.TypeOfRun",ParameterName.LONGSTRING,"cg"),
                                           ("MD.NumCGsteps",ParameterName.NUMERIC,"100.0"),
                                           ("MD.MaxForceTol",ParameterName.NUMERIC,"0.001"),
-                                          ("iscf",ParameterName.STRING,'siesta:   19   -34376.1097   -34376.0348   -34376.0689  0.0026 -3.1498\n'),
+                                          ("iscf",ParameterName.LONGSTRING,'siesta:   19   -34376.1097   -34376.0348   -34376.0689  0.0026 -3.1498\n'),
                                           ("E_KS",ParameterName.NUMERIC,'-34376.0348'),
-                                          ("Occupation Function",ParameterName.STRING,'FD'),
+                                          ("Occupation Function",ParameterName.LONGSTRING,'FD'),
                                           ("OccupationMPOrder",ParameterName.NUMERIC,'1.0')
                                           ],
                                staging_hook= True)
@@ -597,8 +597,8 @@ class VASPMetadataTest(TestCase):
                                name="general 1.0",
                                dataset=dataset,
                                fields= [
-                ("Project",ParameterName.STRING,"FOOBAR Project"), #Assume single work for project
-                ("Walltime",ParameterName.STRING,"04:27:18"), 
+                ("Project",ParameterName.LONGSTRING,"FOOBAR Project"), #Assume single work for project
+                ("Walltime",ParameterName.LONGSTRING,"04:27:18"), 
                 ("Number Of CPUs",ParameterName.NUMERIC,"6.0"),
                 ("Maximum virtual memory",ParameterName.NUMERIC,"7537.0"),
                 ("Max jobfs disk use",ParameterName.NUMERIC,"2.1")
@@ -773,11 +773,12 @@ class AuthPublishTest(TestCase):
                 'form-TOTAL_FORMS': u'1',
                 'form-INITIAL_FORMS': u'0', 'form-MAX_NUM_FORMS': u'',
                  'profile':'default.xml'}
-        response = self.client.post("/experiment/view/1/publish/", data)
+        logger.debug("exp=%s" % exp.id)
+        response = self.client.post("/apps/hpctardis/publish/1/", data)
+        logger.debug("response=%s" % response)
+        logger.debug("context=%s" % response.context)
         self.assertEquals(response.status_code,
                           200)
-        logger.debug("response=%s" % response)
-        
         
         self.assertEquals(response.context['publish_result'][0]['status'],
                           True)         
@@ -790,7 +791,7 @@ class AuthPublishTest(TestCase):
         self.assertEqual(exp.public, False)
         
         auths = PublishAuthorisation.objects.filter(experiment=exp)
-       
+        logger.debug("auths=%s" % auths)
         auth = auths[0]
         logger.debug("auth=%s" % auth)
         self.assertEquals(auth.status,
@@ -799,7 +800,7 @@ class AuthPublishTest(TestCase):
         
         # try publishing while awaiting results
         data = {}
-        response = self.client.post("/experiment/view/1/publish/", data)
+        response = self.client.post("/apps/hpctardis/publish/1/", data)
         self.assertEquals(response.status_code,
                           200)
         logger.debug("response=%s" % response)
@@ -818,7 +819,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':'invalidkey'}
         logger.debug("data=%s" % data)
-        response = self.client.get("/experiment/view/1/publish/",
+        response = self.client.get("/apps/hpctardis/publish/1/",
                                    data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -831,11 +832,11 @@ class AuthPublishTest(TestCase):
         self.assertEqual(exp.public, False)
         
         
-        
+        # right auth
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/publishauth/",
+        response = self.client.get("/apps/hpctardis/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -847,7 +848,7 @@ class AuthPublishTest(TestCase):
         logger.debug("reponse=%s" % response)
         
         
-            
+        # not enough approvers yet    
         exp = models.Experiment.objects.get(title="test exp1")
         self.assertEqual(exp.public, False)
         
@@ -859,7 +860,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':'invalidkey'}
         logger.debug("data=%s" % data)
-        response = self.client.get("/publishauth/",
+        response = self.client.get("/apps/hpctardis/publishauth/",
                                    data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -874,13 +875,14 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/publishauth/",
+        response = self.client.get("/apps/hpctardis/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
+        logger.debug("updated_auth=%s" % updated_auth)
+        self.assertEquals(response.status_code,
+                          200)        
         self.assertEquals(updated_auth.status,
                           PublishAuthorisation.APPROVED_PUBLIC)
-        self.assertEquals(response.status_code,
-                          200)
         self.assertEquals(response.context[u'message'],
                           u"Thank you for your approval Ms Alice Smith")
         logger.debug("reponse=%s" % response)
@@ -893,7 +895,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/publishauth/",
+        response = self.client.get("/apps/hpctardis/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -904,7 +906,7 @@ class AuthPublishTest(TestCase):
         logger.debug("reponse=%s" % response)
         
         # check resulting rif-cs
-        response = self.client.post("/rif_cs/")
+        response = self.client.post("/apps/hpctardis/rif_cs/")
         logger.debug("rifcs response=%s" % response.content)
 
         self.assertEquals(_get_XML_tag(
@@ -1001,7 +1003,8 @@ class AuthPublishTest(TestCase):
                 'form-TOTAL_FORMS': u'1',
                 'form-INITIAL_FORMS': u'0', 'form-MAX_NUM_FORMS': u'',
                  'profile':'default.xml'}
-        response = self.client.post("/experiment/view/1/publish/", data)
+        response = self.client.post("/apps/hpctardis/publish/1/", data)
+        logger.debug("reponse=%s" % response)
         
         self.assertEquals(response.context['publish_result'][0]['status'],
                           True)         
@@ -1048,69 +1051,69 @@ class DescSplitTest(TestCase):
         self.assertEquals(res[0][1],[('link1type', 'link1url', 'link1desc\t\n'), ('link2type', 'link2url', 'link2desc\t\n')])
         self.assertEquals(res[0][2],('full1\nfull2\n\n\nfull3\n\n\nfull4',))
     
-        
-class PrivateDataTest(TestCase):
-    
-         
-    def setUp(self):
-        self.client = Client()
-        from django.contrib.auth.models import User
-        self.username = 'tardis_user1'
-        self.pwd = 'secret'
-        email = ''
-        self.user = User.objects.create_user(self.username, email, self.pwd)
-        settings.PRIVATE_DATAFILES = True
-
-    def tearDown(self):
-        settings.PRIVATE_DATAFILES= False
-        
-    def test_download_exp(self):
-        login = self.client.login(username=self.username,
-                                  password=self.pwd)
-        self.assertTrue(login)
-        # Create simple experiment
-        exp = models.Experiment(title='test exp1',
-                                institution_name='rmit',
-                                created_by=self.user,
-                                public=False
-                                )
-        exp.save()
-        acl = ExperimentACL(
-            pluginId=django_user,
-            entityId=str(self.user.id),
-            experiment=exp,
-            canRead=True,
-            isOwner=True,
-            aclOwnershipType=ExperimentACL.OWNER_OWNED,
-            )
-        acl.save()
-        self.assertEqual(exp.title, 'test exp1')
-        self.assertEqual(exp.url, None)
-        self.assertEqual(exp.institution_name, 'rmit')
-        self.assertEqual(exp.approved, False)
-        self.assertEqual(exp.handle, None)
-        self.assertEqual(exp.created_by, self.user)
-        self.assertEqual(exp.public, False)
-        self.assertEqual(exp.get_or_create_directory(),
-                         path.join(settings.FILE_STORE_PATH, str(exp.id)))
-
-        response = self.client.get("/download/experiment/%s/zip/" % exp.id)
-        
-        self.assertEqual(response['Content-Disposition'],
-                 'attachment; filename="experiment%s-complete.zip"' % exp.id)
-      
-      
-        self.assertEquals([x.name for x in response.templates
-                            if "contact_download" in x.name],
-                          [])
-        
-        exp.public = True
-        exp.save()
-        
-        response = self.client.get("/download/experiment/%s/zip/" % exp.id)
-        
-        self.assertEquals([x.name for x in response.templates
-                            if "contact_download" in x.name],
-                          ['hpctardis/contact_download.html'])
-                 
-                         
+#        
+#class PrivateDataTest(TestCase):
+#    
+#         
+#    def setUp(self):
+#        self.client = Client()
+#        from django.contrib.auth.models import User
+#        self.username = 'tardis_user1'
+#        self.pwd = 'secret'
+#        email = ''
+#        self.user = User.objects.create_user(self.username, email, self.pwd)
+#        settings.PRIVATE_DATAFILES = True
+#
+#    def tearDown(self):
+#        settings.PRIVATE_DATAFILES= False
+#        
+#    def test_download_exp(self):
+#        login = self.client.login(username=self.username,
+#                                  password=self.pwd)
+#        self.assertTrue(login)
+#        # Create simple experiment
+#        exp = models.Experiment(title='test exp1',
+#                                institution_name='rmit',
+#                                created_by=self.user,
+#                                public=False
+#                                )
+#        exp.save()
+#        acl = ExperimentACL(
+#            pluginId=django_user,
+#            entityId=str(self.user.id),
+#            experiment=exp,
+#            canRead=True,
+#            isOwner=True,
+#            aclOwnershipType=ExperimentACL.OWNER_OWNED,
+#            )
+#        acl.save()
+#        self.assertEqual(exp.title, 'test exp1')
+#        self.assertEqual(exp.url, None)
+#        self.assertEqual(exp.institution_name, 'rmit')
+#        self.assertEqual(exp.approved, False)
+#        self.assertEqual(exp.handle, None)
+#        self.assertEqual(exp.created_by, self.user)
+#        self.assertEqual(exp.public, False)
+#        self.assertEqual(exp.get_or_create_directory(),
+#                         path.join(settings.FILE_STORE_PATH, str(exp.id)))
+#
+#        response = self.client.get("/download/experiment/%s/zip/" % exp.id)
+#        
+#        self.assertEqual(response['Content-Disposition'],
+#                 'attachment; filename="experiment%s-complete.zip"' % exp.id)
+#      
+#      
+#        self.assertEquals([x.name for x in response.templates
+#                            if "contact_download" in x.name],
+#                          [])
+#        
+#        exp.public = True
+#        exp.save()
+#        
+#        response = self.client.get("/download/experiment/%s/zip/" % exp.id)
+#        
+#        self.assertEquals([x.name for x in response.templates
+#                            if "contact_download" in x.name],
+#                          ['hpctardis/contact_download.html'])
+#                 
+#                         

@@ -779,7 +779,7 @@ def _get_parameters(schema,metadata):
             parameters.append(parameter[0])
             continue
         # work out the best type from the value
-        datatype = ParameterName.STRING
+        datatype = ParameterName.LONGSTRING
         units = None
         try:
             int(metadata[p][0])
