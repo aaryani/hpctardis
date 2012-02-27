@@ -1,122 +1,17 @@
-{% load creativecommons %}
-<div id="experiment_description">
-
-  <p>
-    <strong>Authors: </strong><br/>
-    {% for author in authors %}
-      {{ author.author }}{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  </p>
-
-  <p>
+{% extends "tardis_portal:tardis_portal/ajax/experiment_description.html" %}
+  {% block abstract %}
+    <p>
     <strong>Abstract: </strong>
     <div class="abstract">
       {{ experiment.description|safe|linebreaks }}
     </div>
   </p>
-
-  {% if experiment.handle %}
-    <p>
-      <strong>Persistent Handle:</strong>
-      <a href="http://hdl.handle.net/{{ experiment.handle }}">{{ experiment.handle }}</a><br/>
-    </p>
-  {% endif %}
-
-  <p>
-    <strong>Institution:</strong>
-    {{experiment.institution_name}}<br/>
-  </p>
-
-  {% if experiment.start_time and experiment.end_time %}
-    <p>
-      <strong>Date:</strong>
-      {{ experiment.start_time|date:"jS F Y H:i" }} - {{ experiment.end_time|date:"jS F Y H:i" }}<br/>
-    </p>
-  {% endif %}
-
-  <p>
-    <div class="experiment_md_container">
-        <strong style="float:left; margin-right: 5px">Experiment Metadata</strong>
-
-        {% if has_write_permissions %}{% if not experiment.public %}
-            <a title="Add" id="expAddTrigger" class="fg-button small ui-state-default fg-button-icon-solo ui-corner-all" href="{% url tardis.tardis_portal.views.add_experiment_par experiment.id %}" 
-                    data-toggle_selector=".experiment_metadata_toggle">
-                <span class="ui-icon ui-icon-plusthick"></span>
-                Add
-            </a>
-        {% endif %}{% endif %}
-
-        <a title="Show/Hide" class="experiment_metadata_toggle metadata_hidden fg-button small ui-state-default fg-button-icon-solo ui-corner-all" href="/ajax/experiment_metadata/{{experiment.id}}/">
-            <span class="ui-icon ui-icon-circle-triangle-e"></span>
-            Show/Hide
-        </a>
-	</div>
-    <div style="clear:both;"></div>
-    <div class="experiment_metadata" style="display:none;"></div>
-  </p>
-
-  <p>
-    <strong>Dataset Information:</strong>
-    <div>
-      <div class="dataset_information">
-            <ul>
-              <li><strong>Datasets:</strong> {{experiment.dataset_set.all.count}}</li>
-              <li><strong>Files:</strong> {{datafiles.count}}</li>
-              <li><strong>Size:</strong> {{size|filesizeformat}}</li>
-            </ul>
-      </div>
-    </div>
-  </p>
-
-  <p>
-    <strong>Experiment Last Updated:</strong>
-    {{ experiment.update_time|date:"jS F Y H:i" }}<br/>
-  </p>
-	<p>
-	<strong>License: </strong>
-	<div class="license_box">{{experiment.id|show_cc_license|safe}}</div>
-	</p>
-  <div class="download_entire_experiment">
-    {% for p in protocol %}
+  {% endblock abstract %}
+  {% block publish_link %}
+      {% if not experiment.public %}
       <p>
-	{% if p.0 %}
-	  <strong><a href="{{p.1}}">Download Entire Experiment ({{p.0|upper}})</a></strong><br/>
-	{% else %}
-	  <strong><a href="{{p.1}}">Download Entire Experiment</a></strong><br/>
-	{% endif %}
+	<strong><a href="/apps/hpctardis/publish/{{experiment.id}}">Publish Experiment</a></strong><br/>
       </p>
-    {% endfor %}
-	{% if is_owner %}
-	<p>
-		<a href="{% url tardis.tardis_portal.views.choose_license experiment.id %}">Choose License</a>
-	</p>
-	{% if not experiment.public %}
-		<strong><a href="/apps/hpctardis/publish/{{experiment.id}}	">Publish Experiment</a></strong><br/>
-	{% endif %}
-	{% endif %}
-  </div>
-
-  <p align="right">
-    <br/>
-    {% if owners %}
-      <strong>Experiment Administrators </strong><br/>
-      {% for owner in owners %}
-        {% if owner.email %}
-          <a href="mailto:{{owner.email}}">{{ owner.email}}</a>
-        {% endif %}
-        ({{ owner.username }})
-        {% if not forloop.last %}
-          <br/>
-		{% endif %}
-		{% endfor %}
-	{% endif %}
-	</p>
-	<p align="right">
-	{% if experiment.public %}
-		<em>This experiment is public.</em>
-	{% endif %}
-      
-  </p>
-
-</div>
+      {% endif %}
+  {% endblock publish_link %}
 

@@ -20,6 +20,9 @@ DATABASES = {
         'PORT': '',
     }
 }
+# Test timezone is GMT+10:00
+# http://twiki.org/cgi-bin/xtra/tzdate?tz=Etc/GMT-10
+TIME_ZONE = 'Etc/GMT-10'
 
 # Celery queue uses Django for persistence
 BROKER_TRANSPORT = 'django'
