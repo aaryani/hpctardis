@@ -39,7 +39,7 @@ PUBLISH_PROVIDERS = (
  
  
 
-INSTALLED_APPS = ("tardis.hpctardis",) + INSTALLED_APPS
+INSTALLED_APPS = ["tardis.hpctardis",] + INSTALLED_APPS
 
 # Post Save Filters
 POST_SAVE_FILTERS = []

@@ -347,5 +347,7 @@ EMAIL_HOST_PASSWORD = 'bob'
 EMAIL_USE_TLS = True
 EMAIL_LINK_HOST = "http://127.0.0.1:8000"
 
+PRIVATE_DATAFILES = False               
+
 
 djcelery.setup_loader()
