@@ -39,7 +39,7 @@ RMITANDSService.py
 import os
 import random
 
-from tardis.apps.hpctardis.publish.publishservice import PublishService
+from tardis.hpctardis.publish.publishservice import PublishService
 
 from django.conf import settings
 from django.utils.importlib import import_module
@@ -50,7 +50,7 @@ import socket
 
 from smtplib import SMTPException
 
-from tardis.apps.hpctardis.models import PublishAuthorisation
+from tardis.hpctardis.models import PublishAuthorisation
 
 from django.utils.hashcompat import sha_constructor
 
@@ -70,7 +70,7 @@ def _send_email(publish_auth,activation_key, exp, activity,auth_party,
     t = Template(email_contents)
     d = {"code": activation_key,
          "domain": settings.EMAIL_LINK_HOST,
-         "path":"apps/hpctardis/publishauth",
+         "path":"publishauth",
          "exp":exp.id,
          "expname":exp.title,
          "activity": activity,
@@ -269,11 +269,12 @@ class RMITANDSService(PublishService):
         :param request: a HTTP Request instance
         :type request: :class:`django.http.HttpRequest`
         """
+        logger.debug("get_contexts")        
         if not self._initialised:
             self._manual_init()
         contexts = {}
         for pp in self._publish_providers:
-            # logger.debug("group provider: " + gp.name)
+            logger.debug("group provider: " + pp.name)
             context = pp.get_context(request)
             if context:
                 contexts = dict(contexts, **context)

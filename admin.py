@@ -29,15 +29,15 @@
 
 
 from django.contrib import admin
-from tardis.apps.hpctardis.models import PartyRecord
-from tardis.apps.hpctardis.models import ActivityRecord
-from tardis.apps.hpctardis.models import ActivityPartyRelation
-from tardis.apps.hpctardis.models import ActivityLocation
-from tardis.apps.hpctardis.models import PartyLocation
-from tardis.apps.hpctardis.models import NameParts
-from tardis.apps.hpctardis.models import PartyDescription
-from tardis.apps.hpctardis.models import ActivityDescription
-from tardis.apps.hpctardis.models import PublishAuthorisation
+from tardis.hpctardis.models import PartyRecord
+from tardis.hpctardis.models import ActivityRecord
+from tardis.hpctardis.models import ActivityPartyRelation
+from tardis.hpctardis.models import ActivityLocation
+from tardis.hpctardis.models import PartyLocation
+from tardis.hpctardis.models import NameParts
+from tardis.hpctardis.models import PartyDescription
+from tardis.hpctardis.models import ActivityDescription
+from tardis.hpctardis.models import PublishAuthorisation
 
 class ActivityPartyRelationInlines(admin.StackedInline):
     model = ActivityPartyRelation

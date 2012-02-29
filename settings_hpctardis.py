@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'tardis.tardis_portal.auth.AuthorizationMiddleware',
     'django.middleware.transaction.TransactionMiddleware')
 
-ROOT_URLCONF = 'tardis.urls'
+ROOT_URLCONF = 'tardis.hpctardis.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',
                                'django.core.context_processors.static',
@@ -92,7 +92,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',
                                 )
 
 TEMPLATE_LOADERS = (
-    'tardis.apps.hpctardis.templates.loaders.app_specific.Loader',
+    'tardis.hpctardis.templates.loaders.app_specific.Loader',
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.filesystem.Loader',
 )
@@ -101,10 +101,10 @@ TEMPLATE_LOADERS = (
 TEMPLATE_DIRS = (
     
     path.join(path.dirname(__file__),
-    'apps/hpctardis/publish/').replace('\\', '/'),
+    'hpctardis/publish/').replace('\\', '/'),
 
     path.join(path.dirname(__file__),
-    'apps/hpctardis/templates/').replace('\\', '/'),
+    'hpctardis/templates/').replace('\\', '/'),
 
                  
     path.join(path.dirname(__file__),
@@ -169,7 +169,7 @@ STATICFILES_DIRS = (
 TARDIS_APP_ROOT = 'tardis.apps'
 INSTALLED_APPS = (
     TARDIS_APP_ROOT+'.equipment',
-    TARDIS_APP_ROOT+'.hpctardis',
+    'tardis.hpctardis',
     'django_extensions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -250,8 +250,8 @@ EMAIL_USE_TLS = True
 #    ]
 
 # logging levels are: DEBUG, INFO, WARN, ERROR, CRITICAL
-SYSTEM_LOG_LEVEL = 'INFO'
-MODULE_LOG_LEVEL = 'INFO'
+SYSTEM_LOG_LEVEL = 'DEBUG'
+MODULE_LOG_LEVEL = 'DEBUG'
 
 SYSTEM_LOG_FILENAME = 'request.log'
 MODULE_LOG_FILENAME = 'tardis.log'
@@ -311,7 +311,7 @@ COLLECTION_SUBJECTS = None
 PUBLISH_PROVIDERS = (
                  #   'tardis.tardis_portal.publish.rif_cs_profile.'
                  #   + 'rif_cs_PublishProvider.rif_cs_PublishProvider',
-                    'tardis.apps.hpctardis.publish.rif_cs_profile.'
+                    'tardis.hpctardis.publish.rif_cs_profile.'
                     + 'rif_cs_PublishProvider.rif_cs_PublishProvider',
                     )
  
@@ -323,7 +323,7 @@ RIGHTS= "Terms and conditions applies as specified by the researchers"
 # Post Save Filters
 POST_SAVE_FILTERS = []
 tmp = list(POST_SAVE_FILTERS)
-tmp.append(("tardis.apps.hpctardis.filters.metadata.make_filter", ["",""]))
+tmp.append(("tardis.hpctardis.filters.metadata.make_filter", ["",""]))
 POST_SAVE_FILTERS = tuple(tmp)
 
 # Add Middleware
@@ -332,6 +332,20 @@ tmp.append(
     'tardis.tardis_portal.filters.FilterInitMiddleware'
 )
 MIDDLEWARE_CLASSES = tuple(tmp)
+# HPCTardis Media
+HPC_STATIC_URL_ROOT = '/static'
+HPC_STATIC_DOC_ROOT = path.join(path.dirname(__file__),
+                               'hpctardis/static').replace('\\', '/')
+
+
+# Email Configuration
+
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bob@bobmail.com'
+EMAIL_HOST_PASSWORD = 'bob'
+EMAIL_USE_TLS = True
+EMAIL_LINK_HOST = "http://127.0.0.1:8000"
 
 
 djcelery.setup_loader()

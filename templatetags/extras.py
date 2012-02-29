@@ -10,13 +10,13 @@ from django import template
 from tardis.tardis_portal.models import Schema
 from tardis.tardis_portal.models import ExperimentParameterSet
 from tardis.tardis_portal.models import ExperimentParameter
-from tardis.apps.hpctardis.models import PublishAuthorisation
-from tardis.apps.hpctardis.models import ActivityPartyRelation
-from tardis.apps.hpctardis.models import PartyLocation
-from tardis.apps.hpctardis.models import PartyRecord
-from tardis.apps.hpctardis.models import PartyDescription
-from tardis.apps.hpctardis.models import ActivityLocation
-from tardis.apps.hpctardis.models import ActivityDescription
+from tardis.hpctardis.models import PublishAuthorisation
+from tardis.hpctardis.models import ActivityPartyRelation
+from tardis.hpctardis.models import PartyLocation
+from tardis.hpctardis.models import PartyRecord
+from tardis.hpctardis.models import PartyDescription
+from tardis.hpctardis.models import ActivityLocation
+from tardis.hpctardis.models import ActivityDescription
 
 
 
@@ -143,7 +143,7 @@ def breakup_desc(exp):
     """ Breaks up exp description into tuple containing brief desc, full
         description and list of links
     """
-    from tardis.apps.hpctardis.publish.rif_cs_profile.rif_cs_PublishProvider import paragraphs
+    from tardis.hpctardis.publish.rif_cs_profile.rif_cs_PublishProvider import paragraphs
     import re
     paras = paragraphs(str(exp.description))
     output = [x for x in paras]
@@ -185,7 +185,7 @@ def profile(exp):
         profile_template_location = "rif_cs_profile/profiles/"
 
         try:
-            from tardis.apps.hpcatardis.publish.rif_cs_profile.\
+            from tardis.hpcatardis.publish.rif_cs_profile.\
             rif_cs_PublishProvider\
             import rif_cs_PublishProvider
 

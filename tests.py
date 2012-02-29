@@ -68,16 +68,16 @@ from tardis.tardis_portal.auth.localdb_auth import django_user
 #from tardis.apps.hpctardis.metadata import _get_metadata
 #from tardis.apps.hpctardis.metadata import _get_schema
 #from tardis.apps.hpctardis.metadata import _save_metadata
-from tardis.apps.hpctardis.metadata import process_all_experiments
-from tardis.apps.hpctardis.metadata import process_experimentX
+from tardis.hpctardis.metadata import process_all_experiments
+from tardis.hpctardis.metadata import process_experimentX
 
-from tardis.apps.hpctardis.models import PartyRecord
-from tardis.apps.hpctardis.models import ActivityRecord
-from tardis.apps.hpctardis.models import NameParts
-from tardis.apps.hpctardis.models import PartyRecord
-from tardis.apps.hpctardis.models import PartyLocation
-from tardis.apps.hpctardis.models import ActivityPartyRelation
-from tardis.apps.hpctardis.models import PublishAuthorisation
+from tardis.hpctardis.models import PartyRecord
+from tardis.hpctardis.models import ActivityRecord
+from tardis.hpctardis.models import NameParts
+from tardis.hpctardis.models import PartyRecord
+from tardis.hpctardis.models import PartyLocation
+from tardis.hpctardis.models import ActivityPartyRelation
+from tardis.hpctardis.models import PublishAuthorisation
 
 
 from tardis.tardis_portal.ParameterSetManager import ParameterSetManager
@@ -114,7 +114,7 @@ class HPCprotocolTest(TestCase):
         from django.core.urlresolvers import reverse
         import os
         
-        url=reverse('tardis.apps.hpctardis.views.protocol')
+        url=reverse('tardis.hpctardis.views.protocol')
         response = self.client.post(url, {'username':self.user, 
                                                'password':self.pwd,
                                                'authMethod':'localdb'})
@@ -126,7 +126,7 @@ class HPCprotocolTest(TestCase):
         from django.core.urlresolvers import reverse
         import os
         
-        url=reverse('tardis.apps.hpctardis.views.protocol')
+        url=reverse('tardis.hpctardis.views.protocol')
         response = self.client.post(url, {'authMethod':'localdb'})
         self.assertEquals(response.status_code, 200)
         str_response = str(response.content)   
@@ -139,7 +139,7 @@ class HPCprotocolTest(TestCase):
         import os
         import tempfile
         
-        url=reverse('tardis.apps.hpctardis.views.login')
+        url=reverse('tardis.hpctardis.views.login')
         
 
 
@@ -245,11 +245,11 @@ class SimplePublishTest(TestCase):
         # publish
         data = {'legal':'on',
                 'profile':'default.xml'}
-        response = self.client.post("/apps/hcptardis/publish/1/", data)
+        response = self.client.post("/experiment/view/1/publish/", data)
         
         logger.debug("response=%s" % response)
         # check resulting rif-cs
-        response = self.client.post("/apps/hpctardis/rif_cs/")
+        response = self.client.post("/rif_cs/")
         self.assertTrue(_grep("test exp1",str(response)))
         self.assertTrue(_grep("<key>http://www.rmit.edu.au/HPC/2/1</key>",str(response)))
         self.assertTrue(_grep("""<addressPart type="text">%s</addressPart>""" %
@@ -774,7 +774,7 @@ class AuthPublishTest(TestCase):
                 'form-INITIAL_FORMS': u'0', 'form-MAX_NUM_FORMS': u'',
                  'profile':'default.xml'}
         logger.debug("exp=%s" % exp.id)
-        response = self.client.post("/apps/hpctardis/publish/1/", data)
+        response = self.client.post("/experiment/view/1/publish/", data)
         logger.debug("response=%s" % response)
         logger.debug("context=%s" % response.context)
         self.assertEquals(response.status_code,
@@ -800,7 +800,7 @@ class AuthPublishTest(TestCase):
         
         # try publishing while awaiting results
         data = {}
-        response = self.client.post("/apps/hpctardis/publish/1/", data)
+        response = self.client.post("/experiment/view/1/publish/", data)
         self.assertEquals(response.status_code,
                           200)
         logger.debug("response=%s" % response)
@@ -819,7 +819,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':'invalidkey'}
         logger.debug("data=%s" % data)
-        response = self.client.get("/apps/hpctardis/publish/1/",
+        response = self.client.get("/experiment/view/1/publish/",
                                    data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -836,7 +836,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/apps/hpctardis/publishauth/",
+        response = self.client.get("/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -860,7 +860,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':'invalidkey'}
         logger.debug("data=%s" % data)
-        response = self.client.get("/apps/hpctardis/publishauth/",
+        response = self.client.get("/publishauth/",
                                    data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -875,7 +875,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/apps/hpctardis/publishauth/",
+        response = self.client.get("/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         logger.debug("updated_auth=%s" % updated_auth)
@@ -895,7 +895,7 @@ class AuthPublishTest(TestCase):
         data={'expid':str(exp.id),
                           'authcode':auth.auth_key}
         logger.debug("data=%s" % data)
-        response = self.client.get("/apps/hpctardis/publishauth/",
+        response = self.client.get("/publishauth/",
                          data)
         updated_auth = PublishAuthorisation.objects.get(id=auth.id)
         self.assertEquals(updated_auth.status,
@@ -906,7 +906,7 @@ class AuthPublishTest(TestCase):
         logger.debug("reponse=%s" % response)
         
         # check resulting rif-cs
-        response = self.client.post("/apps/hpctardis/rif_cs/")
+        response = self.client.post("/rif_cs/")
         logger.debug("rifcs response=%s" % response.content)
 
         self.assertEquals(_get_XML_tag(
@@ -1003,7 +1003,7 @@ class AuthPublishTest(TestCase):
                 'form-TOTAL_FORMS': u'1',
                 'form-INITIAL_FORMS': u'0', 'form-MAX_NUM_FORMS': u'',
                  'profile':'default.xml'}
-        response = self.client.post("/apps/hpctardis/publish/1/", data)
+        response = self.client.post("/experiment/view/1/publish/", data)
         logger.debug("reponse=%s" % response)
         
         self.assertEquals(response.context['publish_result'][0]['status'],
@@ -1031,14 +1031,14 @@ class DescSplitTest(TestCase):
     """
     
     def test_simple(self):
-        from tardis.apps.hpctardis.publish.rif_cs_profile.rif_cs_PublishProvider import paragraphs
+        from tardis.hpctardis.publish.rif_cs_profile.rif_cs_PublishProvider import paragraphs
         paras = paragraphs('p1\n\t\np2\t\n\tstill p2\t   \n     \n\tp')
         output = [x for x in paras]    
         self.assertEquals(str(output),"['p1\\n', 'p2\\t\\n\\tstill p2\\t   \\n', '\\tp']")
     
             
     def test_breakupdesc(self):
-        from tardis.apps.hpctardis.templatetags.extras import breakup_desc
+        from tardis.hpctardis.templatetags.extras import breakup_desc
         exp = Exp('brief\n\t\n'
                                             'link1type:link1url\nlink1desc\t\n\n'
                                             'full1\nfull2\n\n'

@@ -45,17 +45,17 @@ import random
 
 from django.forms.formsets import formset_factory
 
-from tardis.apps.hpctardis.publish.interfaces import PublishProvider
+from tardis.hpctardis.publish.interfaces import PublishProvider
 from tardis.tardis_portal.models import Experiment, ExperimentParameter, \
     ParameterName, Schema, ExperimentParameterSet
 
-from tardis.apps.hpctardis.forms import ActivitiesSelectForm
-from tardis.apps.hpctardis.models import ActivityPartyRelation
-from tardis.apps.hpctardis.models import PartyLocation
-from tardis.apps.hpctardis.forms import CollectionPartyRelation
-from tardis.apps.hpctardis.models import PublishAuthorisation
+from tardis.hpctardis.forms import ActivitiesSelectForm
+from tardis.hpctardis.models import ActivityPartyRelation
+from tardis.hpctardis.models import PartyLocation
+from tardis.hpctardis.forms import CollectionPartyRelation
+from tardis.hpctardis.models import PublishAuthorisation
 
-from tardis.apps.hpctardis.publish.RMITANDSService import send_request_email
+from tardis.hpctardis.publish.RMITANDSService import send_request_email
 
 
 logger = logging.getLogger(__name__)

@@ -38,10 +38,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from tardis.apps.hpctardis.metadata import rulesets
-from tardis.apps.hpctardis.metadata import process_datafile
-from tardis.apps.hpctardis.metadata import _get_schema
-from tardis.apps.hpctardis.metadata import _save_metadata
+from tardis.hpctardis.metadata import rulesets
+from tardis.hpctardis.metadata import process_datafile
+from tardis.hpctardis.metadata import _get_schema
+from tardis.hpctardis.metadata import _save_metadata
 
 class MetadataFilter(object):
     """This filter provides extraction of metadata extraction of HPC files

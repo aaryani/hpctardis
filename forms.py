@@ -28,8 +28,8 @@
 #
 
 from django import forms
-from tardis.apps.hpctardis.models import ActivityRecord
-from tardis.apps.hpctardis.models import PartyRecord
+from tardis.hpctardis.models import ActivityRecord
+from tardis.hpctardis.models import PartyRecord
 
 class ActivitiesSelectForm(forms.Form):
     activities = forms.ModelMultipleChoiceField(queryset=ActivityRecord.objects.all())

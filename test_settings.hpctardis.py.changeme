@@ -1,0 +1,89 @@
+from os import path
+from test_settings import *
+
+
+# ------------------------------------
+# -- HPCTardis settings for testing --
+# ------------------------------------
+
+ROOT_URLCONF = 'tardis.hpctardis.urls'
+
+# Template directorises
+TEMPLATE_DIRS = (
+    
+    path.join(path.dirname(__file__),
+    'hpctardis/publish/').replace('\\', '/'),
+
+    path.join(path.dirname(__file__),
+    'hpctardis/templates/').replace('\\', '/'),
+
+                 
+    path.join(path.dirname(__file__),
+    'tardis_portal/publish/').replace('\\', '/'),                 
+    
+    path.join(path.dirname(__file__),
+    'tardis_portal/templates/').replace('\\', '/'),
+
+    '.',
+                  
+)
+
+DEFAULT_INSTITUTION = "RMIT University"
+
+IMMUTABLE_METS_DATASETS = True
+
+PUBLISH_PROVIDERS = (
+                    'tardis.hpctardis.publish.rif_cs_profile.'
+                    + 'rif_cs_PublishProvider.rif_cs_PublishProvider',
+                    )
+ 
+ 
+
+INSTALLED_APPS = ("tardis.hpctardis",) + INSTALLED_APPS
+
+# Post Save Filters
+POST_SAVE_FILTERS = []
+tmp = list(POST_SAVE_FILTERS)
+tmp.append(("tardis.hpctardis.filters.metadata.make_filter", ["",""]))
+POST_SAVE_FILTERS = tuple(tmp)
+
+# Add Middleware
+tmp = list(MIDDLEWARE_CLASSES)
+tmp.append(
+    'tardis.tardis_portal.filters.FilterInitMiddleware'
+)
+MIDDLEWARE_CLASSES = tuple(tmp)
+
+# The anzsrc codes for subject for all collections
+COLLECTION_SUBJECTS = None
+GROUP = "Acme University"
+GROUP_ADDRESS = "Acme University, Coimbatore, India"
+ACCESS_RIGHTS= "Contact the researchers/parties associated with this dataset"
+RIGHTS= "Terms and conditions applies as specified by the researchers"
+
+# HPCTardis Media
+HPC_STATIC_URL_ROOT = '/static'
+HPC_STATIC_DOC_ROOT = path.join(path.dirname(__file__),
+                               'hpctardis/static').replace('\\', '/')
+
+# Changed because hpctardis overrides existing urls, which are called in testcases
+#ROOT_URLCONF = 'tardis.apps.hpctardis.urls'
+
+PRIVATE_DATAFILES = False
+                     
+MATPLOTLIB_HOME = path.abspath(path.join(path.dirname(__file__), 
+                                         '../')).replace('\\', '/')
+
+RIFCS_GROUP = "MyTARDIS Default Group"
+RELATED_OTHER_INFO_SCHEMA_NAMESPACE = 'http://www.tardis.edu.au/schemas/experiment/annotation/2011/07/07'
+
+EMAIL_LINK_HOST = "http://127.0.0.1:8080"
+
+                                
+
+TEMPLATE_LOADERS = (
+    'tardis.hpctardis.templates.loaders.app_specific.Loader',
+    'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.filesystem.Loader',
+)
+
